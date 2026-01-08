@@ -5,17 +5,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Images for the cards (Cars and Houses)
     const images = [
-        'assets/35.webp', // Car
-        'assets/33.webp', // Car/House
-        'assets/32.webp', // House
-        'assets/28.webp'  // House
+        'assets/car_1.svg',
+        'assets/car_2.svg',
+        'assets/house_1.svg',
+        'assets/house_2.svg'
     ];
 
     // Create 4 pairs
-    const cardsArray = [...images, ...images];
+    let cardsArray = [...images, ...images];
 
-    // Shuffle cards
-    cardsArray.sort(() => 0.5 - Math.random());
+    // Smart Shuffle: Ensures no pair is in the same row (indices 0-1, 2-3, 4-5, 6-7)
+    function smartShuffle(array) {
+        let isValid = false;
+        let shuffled;
+
+        while (!isValid) {
+            shuffled = array.sort(() => 0.5 - Math.random());
+            isValid = true;
+
+            // Check each row (0-1, 2-3, 4-5, 6-7)
+            for (let i = 0; i < shuffled.length; i += 2) {
+                if (shuffled[i] === shuffled[i + 1]) {
+                    isValid = false;
+                    break;
+                }
+            }
+        }
+        return shuffled;
+    }
+
+    cardsArray = smartShuffle(cardsArray);
 
     let cardsChosen = [];
     let cardsChosenId = [];
@@ -69,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const optionOneId = cardsChosenId[0];
         const optionTwoId = cardsChosenId[1];
 
+        // Check matching logic based on image src
         if (cardsChosen[0] === cardsChosen[1]) {
             // Match found
             cards[optionOneId].classList.add('matched');
