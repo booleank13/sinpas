@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#9f1f63">
-  <!-- Car 2: SUV/Jeep style -->
-  <path d="M10,65 L10,35 L30,20 L80,20 L90,35 L90,65 L80,65 A10,10 0 0,1 60,65 L40,65 A10,10 0 0,1 20,65 L10,65 Z M20,65 A8,8 0 1,0 20,81 A8,8 0 1,0 20,65 M70,65 A8,8 0 1,0 70,81 A8,8 0 1,0 70,65" fill="#9f1f63"/>
-  <rect x="35" y="25" width="40" height="20" fill="white"/> <!-- Windows -->
-</svg>

@@ -169,6 +169,14 @@ header {
     color: #fce4ec;
 }
 
+.cta-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    align-items: center;
+}
+
 .cta-button {
     display: inline-block;
     background-color: white;
@@ -180,9 +188,15 @@ header {
     font-size: 16px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     transition: transform 0.2s, background-color 0.2s;
+    width: 80%; /* Consistent width for buttons */
 }
 
 .cta-button:hover {
     transform: scale(1.05);
     background-color: #f0f0f0;
+}
+
+.cta-button.secondary {
+    background-color: #f8bbd0; /* A lighter purple/pink for secondary */
+    color: #880e4f;
 }
