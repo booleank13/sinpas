@@ -38,16 +38,12 @@ header {
 }
 
 #logo {
-    max-width: 240px;
+    max-width: 260px;
     height: auto;
-    /* Removed white background box based on feedback, unless contrast is too low */
-    /* If the logo is transparent PNG, it should look good on purple.
-       If it has white background baked in, we might need a container.
-       Assuming transparent or we need to box it cleanly. */
-    background-color: white; /* Keeping it for now as the logo file likely has text that needs contrast or is the full badge */
-    padding: 8px;
+    background-color: white;
+    padding: 12px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 #instruction {
