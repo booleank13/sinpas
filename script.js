@@ -6,12 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Images for the cards
     // 2 Cars and 2 Houses
     const carImages = [
-        'assets/car_1.svg',
-        'assets/car_2.svg'
+        'assets/blue_car.png',
+        'assets/green_car.png'
     ];
     const houseImages = [
-        'assets/house_1.svg',
-        'assets/house_2.svg'
+        'assets/blue_house.png',
+        'assets/red_house.png'
     ];
 
     let cardsArray = [];
