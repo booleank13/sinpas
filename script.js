@@ -3,46 +3,53 @@ document.addEventListener('DOMContentLoaded', () => {
     const timerDisplay = document.getElementById('timer');
     const endScreen = document.getElementById('end-screen');
 
-    // Images for the cards
-    // Cars
-    const carImages = [
-        'assets/car_1.svg',
+    // Images for the cards (4 unique images for 4 pairs)
+    const allImages = [
         'assets/car_1.svg',
         'assets/car_2.svg',
-        'assets/car_2.svg'
-    ];
-    // Houses
-    const houseImages = [
         'assets/house_1.svg',
-        'assets/house_1.svg',
-        'assets/house_2.svg',
         'assets/house_2.svg'
     ];
 
     let cardsArray = [];
 
-    // Smart Shuffle: Ensures each row (0-1, 2-3, 4-5, 6-7) has exactly 1 Car and 1 House
+    // Smart Shuffle: Implements the specific "Ring Topology" requested by the user
+    // The user specified a pattern that implies links: 1-2, 2-4, 4-3, 3-1.
     function createSmartDeck() {
-        // Shuffle the specialized arrays
-        const shuffledCars = carImages.sort(() => 0.5 - Math.random());
-        const shuffledHouses = houseImages.sort(() => 0.5 - Math.random());
+        // Shuffle the images so the specific image for a link changes every game
+        // This ensures "Pair A" isn't always "car_1.svg"
+        const shuffledImages = [...allImages].sort(() => 0.5 - Math.random());
 
-        const finalDeck = [];
+        // Assign images to Edges (Links between rows)
+        const edge12 = shuffledImages[0]; // Link between Row 1 and Row 2
+        const edge24 = shuffledImages[1]; // Link between Row 2 and Row 4
+        const edge43 = shuffledImages[2]; // Link between Row 4 and Row 3 (User said 4. 3)
+        const edge31 = shuffledImages[3]; // Link between Row 3 and Row 1 (User said 3. 1)
 
-        // We have 4 rows
-        for (let i = 0; i < 4; i++) {
-            // Pick one car and one house for this row
-            const pair = [shuffledCars[i], shuffledHouses[i]];
+        // Construct Rows based on the topology
+        // Row 1 connects to 2 (edge12) and 3 (edge31)
+        const row1 = [edge12, edge31];
 
-            // Randomly swap left/right position for this row
-            if (Math.random() > 0.5) {
-                finalDeck.push(pair[0]); // Left
-                finalDeck.push(pair[1]); // Right
-            } else {
-                finalDeck.push(pair[1]); // Left
-                finalDeck.push(pair[0]); // Right
-            }
+        // Row 2 connects to 1 (edge12) and 4 (edge24)
+        const row2 = [edge12, edge24];
+
+        // Row 3 connects to 4 (edge43) and 1 (edge31)
+        const row3 = [edge43, edge31];
+
+        // Row 4 connects to 2 (edge24) and 3 (edge43)
+        const row4 = [edge24, edge43];
+
+        // Helper to shuffle columns within a row (Left/Right)
+        function shuffleRow(row) {
+            return Math.random() > 0.5 ? [row[0], row[1]] : [row[1], row[0]];
         }
+
+        const finalDeck = [
+            ...shuffleRow(row1),
+            ...shuffleRow(row2),
+            ...shuffleRow(row3),
+            ...shuffleRow(row4)
+        ];
 
         return finalDeck;
     }
@@ -57,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let timerId;
 
     function createBoard() {
+        grid.innerHTML = '';
         for (let i = 0; i < cardsArray.length; i++) {
             const card = document.createElement('div');
             card.classList.add('card');
@@ -64,9 +72,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const front = document.createElement('div');
             front.classList.add('card-face', 'card-front');
+            // Front is the back pattern (closed)
 
             const back = document.createElement('div');
             back.classList.add('card-face', 'card-back');
+            // Back is the image (open)
             const img = document.createElement('img');
             img.src = cardsArray[i];
             back.appendChild(img);
@@ -147,9 +157,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function endGame(won) {
         clearInterval(timerId);
         endScreen.classList.remove('hidden');
+        const h2 = endScreen.querySelector('h2');
+        const p = endScreen.querySelector('p');
+
         if (!won) {
-            endScreen.querySelector('h2').textContent = "Süre Doldu!";
-            endScreen.querySelector('p').textContent = "Tekrar deneyin.";
+            h2.textContent = "Süre Doldu!";
+            p.textContent = "Tekrar deneyin.";
+        } else {
+             h2.textContent = "Tebrikler!";
+             p.textContent = "Formu doldurarak fırsatlardan yararlanın.";
         }
     }
 
