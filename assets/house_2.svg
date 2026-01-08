@@ -1,9 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect x="12" y="12" width="40" height="48" fill="#9f1f63"/>
-  <rect x="18" y="18" width="8" height="8" fill="#f3e5f5"/>
-  <rect x="38" y="18" width="8" height="8" fill="#f3e5f5"/>
-  <rect x="18" y="32" width="8" height="8" fill="#f3e5f5"/>
-  <rect x="38" y="32" width="8" height="8" fill="#f3e5f5"/>
-  <rect x="18" y="46" width="8" height="8" fill="#f3e5f5"/>
-  <rect x="38" y="46" width="8" height="8" fill="#f3e5f5"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#9f1f63">
+  <!-- House 2: Traditional House with pitched roof -->
+  <path d="M50,5 L5,45 L15,45 L15,95 L85,95 L85,45 L95,45 Z" fill="#9f1f63"/>
+  <rect x="35" y="55" width="30" height="40" fill="white"/> <!-- Door/Window area -->
+  <rect x="40" y="60" width="20" height="35" fill="#9f1f63"/> <!-- Door -->
 </svg>

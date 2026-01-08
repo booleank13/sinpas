@@ -3,44 +3,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const timerDisplay = document.getElementById('timer');
     const endScreen = document.getElementById('end-screen');
 
-    // Images for the cards (Cars and Houses)
-    const images = [
+    // Images for the cards
+    // Cars
+    const carImages = [
+        'assets/car_1.svg',
         'assets/car_1.svg',
         'assets/car_2.svg',
+        'assets/car_2.svg'
+    ];
+    // Houses
+    const houseImages = [
         'assets/house_1.svg',
+        'assets/house_1.svg',
+        'assets/house_2.svg',
         'assets/house_2.svg'
     ];
 
-    // Create 4 pairs
-    let cardsArray = [...images, ...images];
+    let cardsArray = [];
 
-    // Smart Shuffle: Ensures no pair is in the same row (indices 0-1, 2-3, 4-5, 6-7)
-    function smartShuffle(array) {
-        let isValid = false;
-        let shuffled;
+    // Smart Shuffle: Ensures each row (0-1, 2-3, 4-5, 6-7) has exactly 1 Car and 1 House
+    function createSmartDeck() {
+        // Shuffle the specialized arrays
+        const shuffledCars = carImages.sort(() => 0.5 - Math.random());
+        const shuffledHouses = houseImages.sort(() => 0.5 - Math.random());
 
-        while (!isValid) {
-            shuffled = array.sort(() => 0.5 - Math.random());
-            isValid = true;
+        const finalDeck = [];
 
-            // Check each row (0-1, 2-3, 4-5, 6-7)
-            for (let i = 0; i < shuffled.length; i += 2) {
-                if (shuffled[i] === shuffled[i + 1]) {
-                    isValid = false;
-                    break;
-                }
+        // We have 4 rows
+        for (let i = 0; i < 4; i++) {
+            // Pick one car and one house for this row
+            const pair = [shuffledCars[i], shuffledHouses[i]];
+
+            // Randomly swap left/right position for this row
+            if (Math.random() > 0.5) {
+                finalDeck.push(pair[0]); // Left
+                finalDeck.push(pair[1]); // Right
+            } else {
+                finalDeck.push(pair[1]); // Left
+                finalDeck.push(pair[0]); // Right
             }
         }
-        return shuffled;
+
+        return finalDeck;
     }
 
-    cardsArray = smartShuffle(cardsArray);
+    cardsArray = createSmartDeck();
 
     let cardsChosen = [];
     let cardsChosenId = [];
     let cardsWon = [];
     let isLocked = false;
-    let timeLeft = 120; // 2 minutes
+    let timeLeft = 60; // 1 minute
     let timerId;
 
     function createBoard() {
@@ -111,17 +124,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startTimer() {
+        // Update display immediately
+        updateTimerDisplay();
+
         timerId = setInterval(() => {
             timeLeft--;
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerDisplay.textContent = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            updateTimerDisplay();
 
             if (timeLeft === 0) {
                 clearInterval(timerId);
                 endGame(false);
             }
         }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerDisplay.textContent = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     }
 
     function endGame(won) {
